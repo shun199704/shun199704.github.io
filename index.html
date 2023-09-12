@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramdomizer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            min-height: 100vh; /* Ensure full viewport height */
+            flex-direction: column; /* Stack elements vertically */
+        }
+
+        /* Styles for the div */
+        .container {
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            max-width: 80%; /* Limit width for better readability */
+            margin-bottom: 10px;
+        }
+
+        /* Responsive CSS for mobile devices */
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+            #question {
+                font-size: 4em; /* Adjust the font size for mobile */
+            }
+        }
+
+        /* Button styles */
+        .button {
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            /* margin-top: 10px; */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span id="question">The Question should be displayed here...</span>
+    </div>
+
+    <button class="button" onclick="changeQuestion()">Change Question</button>
+
+    <script>
+        //var hands=["左手","右手"] //用不到
+        // var legs=["左腳","右腳"] //用不到
+        var partsforhandsLR = ["後腳跟","膝蓋","手肘","耳朵","肩膀","手腕","臉頰"]//手摸且可以組合出左摸右的部位,就分普通的摸、左摸右、右摸左、右摸右、左摸左
+        var partsforhandsN = ["鼻子","下巴","頭","插腰","高舉手","比YA","比讚"]//給手摸但不組合出左摸右的部位,分為摸、左手摸、右手摸
+        var other = ["閉左眼","閉右眼","閉雙眼","順時針轉一圈","逆時針轉一圈","原地跳躍","左腳單腳跳躍","右腳單腳跳躍","稍息","向左轉","向右轉","向後轉"]//其他
+
+        function changeQuestion() {
+            //先抽部位
+            var partstouse;
+            var questiontext;
+            var randomNumber0 = Math.floor(Math.random() * 6) + 1;
+            console.clear();
+            console.log(randomNumber0);
+            // Map the random number to the arrays based on the desired probabilities
+            if (randomNumber0 <= 3) {//抽到partsforhandsLR
+                partstouse = partsforhandsLR;
+                var randomNumber1 = Math.floor(Math.random() * 3);
+                console.log(randomNumber1);
+                switch (randomNumber1) {
+                    case 0://一般的摸
+                        var randomNumber2 = Math.floor(Math.random() * 7);//抽部位
+                        console.log(randomNumber2);
+                        questiontext = "摸"+partstouse[randomNumber2];
+                        break;
+                    case 1://左手摸
+                    var randomNumber2 = Math.floor(Math.random() * 2);//抽摸左或右部位
+                    console.log(randomNumber2);
+                        switch (randomNumber2){
+                            case 0://摸左部位
+                                var randomNumber3 = Math.floor(Math.random() * 7)
+                                console.log(randomNumber3);
+                                //手肘、手腕不可能用同一支手摸所以要避開
+                                if (randomNumber3 ==2 |randomNumber3 ==5){questiontext ="左手摸右"+partstouse[randomNumber3];}
+                                else {questiontext ="左手摸左"+partstouse[randomNumber3];}
+                                break;
+                            case 1://摸右部位
+                                var randomNumber3 = Math.floor(Math.random() * 7)
+                                console.log(randomNumber3);
+                                questiontext ="左手摸右"+partstouse[randomNumber3];
+                                break;
+                        }
+                        break;
+                    case 2://右手摸
+                    var randomNumber2 = Math.floor(Math.random() * 2);//抽摸左或右部位
+                    console.log(randomNumber2);
+                        switch (randomNumber2){
+                            case 0://摸左部位
+                                var randomNumber3 = Math.floor(Math.random() * 7)
+                                console.log(randomNumber3);
+                                questiontext ="右手摸左"+partstouse[randomNumber3];
+                                break;
+                            case 1://摸右部位
+                                var randomNumber3 = Math.floor(Math.random() * 7)
+                                console.log(randomNumber3);
+                                if (randomNumber3 ==2 |randomNumber3 ==5){questiontext ="右手摸左"+partstouse[randomNumber3];}
+                                else {questiontext ="右手摸右"+partstouse[randomNumber3];}
+                                break;
+                        }
+                        break;
+                }
+            } else if (randomNumber0 <= 5 & randomNumber0 >3) {//抽到partsforhandsN
+                partstouse = partsforhandsN;
+                var randomNumber2 = Math.floor(Math.random() * 3);
+                console.log(randomNumber2);
+                switch (randomNumber2){
+                    case 0://一般的摸
+                        var randomNumber3 = Math.floor(Math.random() * 7)//抽部位
+                        console.log(randomNumber3);
+                        if (randomNumber3 <=2){questiontext ="摸"+partstouse[randomNumber3];}
+                        else {questiontext = partstouse[randomNumber3];}
+                        break;
+                    case 1://左手摸
+                        var randomNumber3 = Math.floor(Math.random() * 7)//抽部位
+                        console.log(randomNumber3);
+                        if (randomNumber3 <=2){questiontext ="左手摸"+partstouse[randomNumber3];}
+                        else {questiontext ="左手"+partstouse[randomNumber3];}
+                        break;
+                    case 2://右手摸
+                        var randomNumber3 = Math.floor(Math.random() * 7)//抽部位
+                        console.log(randomNumber3);
+                        if (randomNumber3 <=2){questiontext ="右手摸"+partstouse[randomNumber3];}
+                        else {questiontext ="右手"+partstouse[randomNumber3];}
+                        break;
+                }
+            } else {//抽到其他
+                partstouse = other;
+                var randomNumber2 = Math.floor(Math.random() * 12)
+                console.log(randomNumber2);
+                questiontext = partstouse[randomNumber2];
+            }
+
+            // Replace the content of the span with a new question
+            const questionSpan = document.getElementById("question");
+            questionSpan.textContent = questiontext;
+        }
+    </script>
+</body>
+</html>
